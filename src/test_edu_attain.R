@@ -62,7 +62,7 @@ for (t in unq_tracts) {
   else dt_all <- data.table::data.table(geoid = t, ays = ays_t)
 }
 # save to file
-data.table::fwrite(dt_all, "../test_edu_attain_va.csv")
+data.table::fwrite(dt_all, "data/test_edu_attain_va.csv")
 
 # Transform to range [0, 1]
 mn <- min(dt_all$ays, na.rm = T)
@@ -70,5 +70,5 @@ mx <- max(dt_all$ays, na.rm = T)
 scaled <- (dt_all$ays - mn)/(mx-mn)
 dt_scaled <- data.table::data.table(geoid = dt_all$geoid, ays = dt_all$ays, score = scaled)
 # save to file
-data.table::fwrite(dt_scaled, "../test_edu_attain_va_scaled.csv")
+data.table::fwrite(dt_scaled, "data/test_edu_attain_va_scaled.csv")
 
