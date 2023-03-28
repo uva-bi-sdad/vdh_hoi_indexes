@@ -62,7 +62,7 @@ acsdata$county <- substr(acsdata$GEOID,1,5)
 code_ncr <- c("51013" , "51059" , "51600" , "51107" , "51610" , "51683", "51685" , "51153" , "51510" , "24021" , "24031" , "24033" , "24017", "11001")
 
 #dmv by census tract
-acsdata_ncr <- acsdata %>% filter(county %in% code_ncr)
+acsdata <- acsdata %>% filter(county %in% code_ncr)
 
 # Calculate AYS for all ncr tracts
 if (exists("dt_all")) rm(dt_all)
