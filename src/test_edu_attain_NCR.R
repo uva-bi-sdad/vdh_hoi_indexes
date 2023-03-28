@@ -49,27 +49,27 @@ get_ays <- function(acs_data, tract_geoid) {
 }
 
 
-acsdatadmv <- get_acs(geography = "tract",
+acsdata <- get_acs(geography = "tract",
                    table = "B15001",
                     year = 2020,
                    state = c("VA", "MD", "DC"),
                   survey = "acs5")
 
 #id county
-acsdatadmv$county <- substr(acsdatadmv$GEOID,1,5)
+acsdata$county <- substr(acsdata$GEOID,1,5)
 
 #ncr counties : 14
 code_ncr <- c("51013" , "51059" , "51600" , "51107" , "51610" , "51683", "51685" , "51153" , "51510" , "24021" , "24031" , "24033" , "24017", "11001")
 
 #dmv by census tract
-acsdata_ncr <- acsdatadmv %>% filter(county %in% code_ncr)
+acsdata_ncr <- acsdata %>% filter(county %in% code_ncr)
 
 # Calculate AYS for all ncr tracts
 if (exists("dt_all")) rm(dt_all)
-unq_tracts <- unique(acsdata_ncr$GEOID)
+unq_tracts <- unique(acsdata$GEOID)
 for (t in unq_tracts) {
   print(t)
-  ays_t <- get_ays(acsdata_ncr, t)
+  ays_t <- get_ays(acsdata, t)
   if (exists("dt_all")) dt_all <- data.table::rbindlist(list(dt_all, data.table::data.table(geoid = t, ays = ays_t)))
   else dt_all <- data.table::data.table(geoid = t, ays = ays_t)
 }
