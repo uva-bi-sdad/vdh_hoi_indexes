@@ -5,11 +5,12 @@ library(tidycensus)
 library(dplyr)
 
 #load the data from H+T
-data_2015 <- read_csv("VDH_Employment/htaindex2015_data_tracts_51.csv")
+data_2015 <- read_csv("~/git/vdh_hoi_indexes/data/h+t/htaindex2015_data_tracts_51.csv")
 
-data_2019 <- read_csv("VDH_Employment/htaindex2019_data_tracts_51.csv")
+data_2019 <- read_csv("~/git/vdh_hoi_indexes/data/h+t/htaindex2019_data_tracts_51.csv")
 
-data_2020 <- read_csv("VDH_Employment/htaindex2020_data_tracts_51.csv")
+data_2020 <- read_csv("~/git/vdh_hoi_indexes/data/h+t/htaindex2020_data_tracts_51.csv")
+
 
 
 #Select only required columns, emp_gravity is emplyment access index
