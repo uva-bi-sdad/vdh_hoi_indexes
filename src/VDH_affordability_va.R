@@ -102,7 +102,39 @@ merged_data_2020 <- merge_and_rename(data_2020, va_acs_2020, 2020)
 combined_data <- rbind(merged_data_2015, merged_data_2019, merged_data_2020)
 
 
-write.csv(combined_data, file = "~/git/vdh_hoi_indexes/va_cttr_2015_2019_2020_affordability_index.csv", row.names = FALSE)
+#write.csv(combined_data, file = "~/git/vdh_hoi_indexes/va_cttr_2015_2019_2020_affordability_index.csv", row.names = FALSE)
+
+
+####interpolation
+
+data_2015 <- combined_data %>% filter(year == 2015)
+data_2019 <- combined_data %>% filter(year == 2019)
+
+
+
+combined_data_1519 <- bind_rows(data_2015 %>% mutate(year = 2015),
+                                data_2019 %>% mutate(year = 2019))
+
+
+combined_data_1519$value <- as.numeric(combined_data_1519$value)
+
+
+grouped_data_1519 <- combined_data_1519 %>%
+  group_by(geoid, measure)
+
+data_2016_to_2018 <- grouped_data_1519 %>%
+  complete(year = seq(2016, 2018)) %>%
+  arrange(year)
+
+
+data_2016_to_2018 <- data_2016_to_2018 %>%
+  mutate(value = na.approx(value, na.rm = FALSE)) %>%
+  ungroup()
+
+combined_data_2015_2020 <- rbind( data_2016_to_2018,  merged_data_2020)
+
+
+write.csv(combined_data_2015_2020, file = "~/git/vdh_hoi_indexes/data/va_cttr_2015_2020_affordability_index.csv", row.names = FALSE)
 
 
 
