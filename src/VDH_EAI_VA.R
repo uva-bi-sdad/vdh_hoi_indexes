@@ -62,7 +62,26 @@ va_acs_2019 <- data_frame(va_acs_2019)
 va_acs_2020 <- data_frame(va_acs_2020)
 
 #merging the data for our format
-#havibg everything in a function for optimization
+#having everything in a function for optimization
+
+# merge_and_rename <- function(data, acs_data, year) {
+#   merged_data <- merge(data, acs_data, by.x = "tract", by.y = "GEOID", all.x = TRUE)
+#   merged_data$cbsa <- NULL
+#   colnames(merged_data)[colnames(merged_data) == "tract"] <- "geoid"
+#   colnames(merged_data)[colnames(merged_data) == "year"] <- paste0("year_", year)
+#   
+#   merged_data$measure <- "employment access index"
+#   merged_data$measure_type <- "index"
+#   merged_data$year <- year
+#   colnames(merged_data)[colnames(merged_data) == "NAME"] <- "region_name"
+#   colnames(merged_data)[colnames(merged_data) == "emp_gravity"] <- "value"
+#   merged_data$region_type <- "tract"
+#   
+#   merged_data <- merged_data[, c("geoid", "measure", "measure_type", "region_name", "region_type", "value", "year")]
+#   
+#   return(merged_data)
+# }
+
 
 merge_and_rename <- function(data, acs_data, year) {
   merged_data <- merge(data, acs_data, by.x = "tract", by.y = "GEOID", all.x = TRUE)
@@ -70,14 +89,12 @@ merge_and_rename <- function(data, acs_data, year) {
   colnames(merged_data)[colnames(merged_data) == "tract"] <- "geoid"
   colnames(merged_data)[colnames(merged_data) == "year"] <- paste0("year_", year)
   
-  merged_data$measure <- "employment access index"
+  colnames(merged_data)[colnames(merged_data) == "emp_gravity"] <- "value"
+  merged_data$measure <- "employment_access"
   merged_data$measure_type <- "index"
   merged_data$year <- year
-  colnames(merged_data)[colnames(merged_data) == "NAME"] <- "region_name"
-  colnames(merged_data)[colnames(merged_data) == "emp_gravity"] <- "value"
-  merged_data$region_type <- "tract"
   
-  merged_data <- merged_data[, c("geoid", "measure", "measure_type", "region_name", "region_type", "value", "year")]
+  merged_data <- merged_data[, c("geoid", "measure", "value", "year")]
   
   return(merged_data)
 }
